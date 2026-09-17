@@ -15,6 +15,8 @@ function MapFocus({ destination }: { destination: Destination | null }) {
   useEffect(() => {
     if (destination) {
       map.flyTo(destination.coordinates, 12, { duration: 1.35 })
+    } else {
+      map.flyTo([54.35, -97.2], 5, { duration: 1.1 })
     }
   }, [destination, map])
 

@@ -7,7 +7,7 @@ Pocket Trip Maps is a map-first way to discover practical day-trip ideas nearby.
 ## First milestone
 
 - Manitoba-first interactive map
-- Pinawa marker with smooth zoom
+- Pinawa marker with smooth zoom and orbiting activity bubbles
 - Channel tubing, suspension bridge, and beach/swimming activity details
 - Basic activity filters
 - Responsive desktop and mobile layout
