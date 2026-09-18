@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { ExploreMap } from './components/ExploreMap'
 import {
   categoryLabels,
@@ -14,6 +14,7 @@ function App() {
   const [activeDestination, setActiveDestination] = useState<Destination | null>(null)
   const [activeActivity, setActiveActivity] = useState<Activity | null>(null)
   const [category, setCategory] = useState<CategoryFilter>('all')
+  const [orbitVisible, setOrbitVisible] = useState(false)
 
   const visibleActivities = useMemo(() => {
     if (!activeDestination) return []
@@ -22,9 +23,14 @@ function App() {
   }, [activeDestination, category])
 
   const selectDestination = (destination: Destination) => {
+    if (activeDestination?.id === destination.id) return
+
+    setOrbitVisible(false)
     setActiveDestination(destination)
     setActiveActivity(null)
   }
+
+  const revealOrbit = useCallback(() => setOrbitVisible(true), [])
 
   return (
     <main className="app-shell">
@@ -63,6 +69,7 @@ function App() {
             <button
               className="back-button"
               onClick={() => {
+                setOrbitVisible(false)
                 setActiveDestination(null)
                 setActiveActivity(null)
               }}
@@ -145,10 +152,12 @@ function App() {
         <ExploreMap
           destinations={destinations}
           activeDestination={activeDestination}
+          orbitVisible={orbitVisible}
           visibleActivityIds={visibleActivities.map((activity) => activity.id)}
           activeActivity={activeActivity}
           onSelect={selectDestination}
           onSelectActivity={setActiveActivity}
+          onMapArrival={revealOrbit}
         />
 
         {activeDestination && visibleActivities.length === 0 && (
