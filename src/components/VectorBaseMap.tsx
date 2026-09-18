@@ -1,4 +1,5 @@
 import { maplibreGL } from '@maplibre/maplibre-gl-leaflet'
+import { tileLayer } from 'leaflet'
 import mlcontour from 'maplibre-contour'
 import * as maplibregl from 'maplibre-gl'
 import { useEffect } from 'react'
@@ -187,6 +188,22 @@ export function VectorBaseMap({ theme }: VectorBaseMapProps) {
   const map = useMap()
 
   useEffect(() => {
+    const webgl2Canvas = document.createElement('canvas')
+    const hasWebGL2 = Boolean(webgl2Canvas.getContext('webgl2'))
+
+    if (!hasWebGL2) {
+      const container = map.getContainer()
+      const fallbackLayer = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map)
+
+      container.classList.add('map-no-webgl')
+      return () => {
+        container.classList.remove('map-no-webgl')
+        fallbackLayer.remove()
+      }
+    }
+
     const layer = maplibreGL({
       style: STYLE_URLS[theme],
       attributionControl: false,

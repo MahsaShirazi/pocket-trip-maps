@@ -57,6 +57,10 @@ button { font: inherit; }
 
 .map .leaflet-maplibre-gl { background: #dfe9e2; }
 
+.map-no-webgl .leaflet-tile-pane {
+  filter: saturate(.55) sepia(.08) hue-rotate(75deg) brightness(1.02);
+}
+
 .map::before {
   content: '';
   position: absolute;
@@ -875,6 +879,10 @@ button { font: inherit; }
 }
 
 .theme-space .map .leaflet-maplibre-gl { background: #061826; }
+
+.theme-space .map-no-webgl .leaflet-tile-pane {
+  filter: brightness(.72) invert(.92) hue-rotate(168deg) saturate(.65) contrast(1.12);
+}
 
 .theme-space .map::before {
   opacity: 0;
