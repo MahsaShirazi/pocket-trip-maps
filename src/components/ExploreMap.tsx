@@ -30,15 +30,27 @@ function MapFocus({
 
     if (destination) {
       finishArrival = () => {
+        const isAtDestination =
+          map.getZoom() === 12 &&
+          map.distance(map.getCenter(), destination.coordinates) < 50
+
+        if (!isAtDestination) return
         arrivalTimer = window.setTimeout(onArrival, 120)
       }
 
       map.stop()
-      map.once('moveend', finishArrival)
+      map.on('moveend', finishArrival)
       map.flyTo(destination.coordinates, 12, { duration: 2.8 })
     } else {
-      map.stop()
-      map.flyTo([54.35, -97.2], 5, { duration: 1.35 })
+      const overviewCoordinates: [number, number] = [54.35, -97.2]
+      const isAtOverview =
+        map.getZoom() === 5 &&
+        map.distance(map.getCenter(), overviewCoordinates) < 50
+
+      if (!isAtOverview) {
+        map.stop()
+        map.flyTo(overviewCoordinates, 5, { duration: 1.35 })
+      }
     }
 
     return () => {
