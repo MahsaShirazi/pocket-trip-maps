@@ -1,8 +1,9 @@
 import { divIcon } from 'leaflet'
 import { useEffect } from 'react'
-import { MapContainer, Marker, Pane, TileLayer, useMap } from 'react-leaflet'
+import { MapContainer, Marker, Pane, useMap } from 'react-leaflet'
 import type { Activity, Destination } from '../data/destinations'
 import { ActivityOrbit } from './ActivityOrbit'
+import { VectorBaseMap, type MapTheme } from './VectorBaseMap'
 
 type ExploreMapProps = {
   destinations: Destination[]
@@ -13,6 +14,7 @@ type ExploreMapProps = {
   onSelect: (destination: Destination) => void
   onSelectActivity: (activity: Activity) => void
   onMapArrival: () => void
+  theme: MapTheme
 }
 
 function MapFocus({
@@ -78,6 +80,7 @@ export function ExploreMap({
   onSelect,
   onSelectActivity,
   onMapArrival,
+  theme,
 }: ExploreMapProps) {
   return (
     <MapContainer
@@ -89,10 +92,7 @@ export function ExploreMap({
       className="map"
       aria-label="Interactive map of Manitoba day-trip destinations"
     >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+      <VectorBaseMap theme={theme} />
       {destinations.map((destination) => (
         <Marker
           key={destination.id}
