@@ -480,6 +480,10 @@ button { font: inherit; }
   transition-delay: 0s;
 }
 
+.orbit-reveal:not(.is-visible) .activity-bubble {
+  pointer-events: none;
+}
+
 .orbit-ring {
   position: absolute;
   top: 0;
