@@ -496,22 +496,6 @@ button { font: inherit; }
   box-shadow: 0 0 0 34px rgba(248, 245, 235, .06), inset 0 0 45px rgba(255, 255, 255, .12);
 }
 
-.destination-pin-label {
-  position: absolute;
-  top: 14px;
-  left: 0;
-  padding: 6px 10px;
-  border: 1px solid rgba(255, 255, 255, .78);
-  border-radius: 999px;
-  color: #173c35;
-  background: rgba(248, 245, 235, .9);
-  box-shadow: 0 8px 18px rgba(23, 60, 53, .16);
-  transform: translateX(-50%);
-  font-family: 'Manrope', sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-}
-
 .orbit-track {
   position: absolute;
   top: 0;
@@ -860,8 +844,6 @@ button { font: inherit; }
   .bubble-copy strong { max-width: 88px; font-size: 9px; }
   .bubble-copy span,
   .bubble-copy em { font-size: 8px; }
-
-  .destination-pin-label { top: 12px; }
 
   .activity-detail {
     position: fixed;

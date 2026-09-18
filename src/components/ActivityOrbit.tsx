@@ -54,7 +54,6 @@ export function ActivityOrbit({
     >
       <div className={isRevealed ? 'orbit-reveal is-visible' : 'orbit-reveal'}>
         <div className="orbit-ring" aria-hidden="true" />
-        <span className="destination-pin-label" aria-hidden="true">{destination.name}</span>
 
         {activities.map((activity, index) => {
           const delay = `${-(index * ORBIT_DURATION_SECONDS) / Math.max(activities.length, 1)}s`

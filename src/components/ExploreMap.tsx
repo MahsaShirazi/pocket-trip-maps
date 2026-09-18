@@ -66,7 +66,7 @@ const destinationIcon = divIcon({
   className: 'destination-marker-shell',
   html: '<span class="destination-marker"><span></span></span>',
   iconSize: [42, 42],
-  iconAnchor: [21, 36],
+  iconAnchor: [21, 51],
 })
 
 export function ExploreMap({
