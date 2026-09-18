@@ -11,6 +11,7 @@ export type Activity = {
   bring: string[]
   accent: string
   icon: string
+  imageSrc?: string
   sourceUrl?: string
   verifiedOn?: string
 }

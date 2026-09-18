@@ -91,6 +91,42 @@ function App() {
                 </button>
               ))}
             </div>
+
+            <div className="activity-list" aria-label={`Activities in ${activeDestination.name}`}>
+              <div className="activity-list-heading">
+                <h2>Activities</h2>
+                <span>{visibleActivities.length}</span>
+              </div>
+              {visibleActivities.length > 0 ? (
+                visibleActivities.map((activity) => (
+                  <button
+                    key={activity.id}
+                    className={
+                      activeActivity?.id === activity.id
+                        ? 'activity-card is-active'
+                        : 'activity-card'
+                    }
+                    onClick={() => setActiveActivity(activity)}
+                  >
+                    <span
+                      className="activity-card-thumb"
+                      style={{ backgroundColor: activity.accent }}
+                      aria-hidden="true"
+                    >
+                      {activity.imageSrc ? <img src={activity.imageSrc} alt="" /> : activity.icon}
+                    </span>
+                    <span className="activity-card-copy">
+                      <strong>{activity.name}</strong>
+                      <span>{activity.duration} · {activity.costShort}</span>
+                    </span>
+                    <span className="activity-card-arrow" aria-hidden="true">→</span>
+                  </button>
+                ))
+              ) : (
+                <p className="empty-filter">No activities in this category yet.</p>
+              )}
+            </div>
+
             <div className="orbit-prompt">
               <span aria-hidden="true">↻</span>
               <div>

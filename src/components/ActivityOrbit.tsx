@@ -22,11 +22,7 @@ export function ActivityOrbit({
   return (
     <div className="orbit-system" aria-label={`Activities around ${destination.name}`}>
       <div className="orbit-ring" aria-hidden="true" />
-      <div className="destination-core" aria-hidden="true">
-        <span className="destination-core-dot" />
-        <strong>{destination.name}</strong>
-        <span>Choose an activity</span>
-      </div>
+      <span className="destination-pin-label" aria-hidden="true">{destination.name}</span>
 
       {activities.map((activity, index) => {
         const delay = `${-(index * 36) / Math.max(activities.length, 1)}s`
@@ -46,7 +42,11 @@ export function ActivityOrbit({
               onClick={() => onSelect(activity)}
               aria-pressed={activeActivity?.id === activity.id}
             >
-              <span className="bubble-icon" aria-hidden="true">{activity.icon}</span>
+              {activity.imageSrc ? (
+                <img className="bubble-photo" src={activity.imageSrc} alt="" />
+              ) : (
+                <span className="bubble-icon" aria-hidden="true">{activity.icon}</span>
+              )}
               <span className="bubble-copy">
                 <strong>{activity.name}</strong>
                 <span>{activity.duration}</span>
