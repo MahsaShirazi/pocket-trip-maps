@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ExploreMap } from './components/ExploreMap'
 import {
   categoryLabels,
@@ -9,12 +9,20 @@ import {
 } from './data/destinations'
 
 type CategoryFilter = ActivityCategory | 'all'
+type ThemeMode = 'light' | 'space'
 
 function App() {
   const [activeDestination, setActiveDestination] = useState<Destination | null>(null)
   const [activeActivity, setActiveActivity] = useState<Activity | null>(null)
   const [category, setCategory] = useState<CategoryFilter>('all')
   const [orbitVisible, setOrbitVisible] = useState(false)
+  const [theme, setTheme] = useState<ThemeMode>(() =>
+    window.localStorage.getItem('pocket-trip-theme') === 'space' ? 'space' : 'light',
+  )
+
+  useEffect(() => {
+    window.localStorage.setItem('pocket-trip-theme', theme)
+  }, [theme])
 
   const visibleActivities = useMemo(() => {
     if (!activeDestination) return []
@@ -33,7 +41,7 @@ function App() {
   const revealOrbit = useCallback(() => setOrbitVisible(true), [])
 
   return (
-    <main className="app-shell">
+    <main className={`app-shell theme-${theme}`}>
       <aside className="explore-panel" aria-label="Explore destinations">
         <header className="brand-bar">
           <div className="brand-mark" aria-hidden="true">
@@ -43,6 +51,18 @@ function App() {
             <p className="brand-name">Pocket Trip Maps</p>
             <p className="tagline">A little more life, close to home.</p>
           </div>
+          <button
+            className="theme-toggle"
+            onClick={() => setTheme((current) => current === 'light' ? 'space' : 'light')}
+            aria-pressed={theme === 'space'}
+            aria-label={theme === 'space' ? 'Switch to light map' : 'Switch to space map'}
+            title={theme === 'space' ? 'Switch to light map' : 'Switch to space map'}
+          >
+            <span className="theme-toggle-icon" aria-hidden="true">
+              {theme === 'space' ? '☀' : '✦'}
+            </span>
+            <span>{theme === 'space' ? 'Light' : 'Space'}</span>
+          </button>
         </header>
 
         <div className="panel-topline">
