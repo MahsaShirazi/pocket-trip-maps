@@ -178,7 +178,6 @@ function App() {
           onSelect={selectDestination}
           onSelectActivity={setActiveActivity}
           onMapArrival={revealOrbit}
-          theme={theme}
         />
 
         {activeDestination && visibleActivities.length === 0 && (

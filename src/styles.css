@@ -55,10 +55,9 @@ button { font: inherit; }
   background: #dce7dd;
 }
 
-.map .leaflet-maplibre-gl { background: #dfe9e2; }
-
-.map-no-webgl .leaflet-tile-pane {
+.map .leaflet-tile-pane {
   filter: saturate(.55) sepia(.08) hue-rotate(75deg) brightness(1.02);
+  transition: filter .65s ease;
 }
 
 .map::before {
@@ -858,7 +857,7 @@ button { font: inherit; }
     box-shadow .45s ease;
 }
 
-/* Alternate space theme with genuine deep-navy vector cartography. */
+/* Alternate space theme: the same map experience with a darker, orbital atmosphere. */
 .theme-space {
   color: #dbeaf5;
   color-scheme: dark;
@@ -878,9 +877,7 @@ button { font: inherit; }
   background: #030811;
 }
 
-.theme-space .map .leaflet-maplibre-gl { background: #061826; }
-
-.theme-space .map-no-webgl .leaflet-tile-pane {
+.theme-space .map .leaflet-tile-pane {
   filter: brightness(.72) invert(.92) hue-rotate(168deg) saturate(.65) contrast(1.12);
 }
 
