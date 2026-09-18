@@ -450,15 +450,18 @@ button { font: inherit; }
 .orbit-system {
   --orbit-radius: clamp(168px, 20vw, 226px);
   position: absolute;
-  inset: 0;
-  z-index: 510;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
   pointer-events: none;
+  will-change: transform;
 }
 
 .orbit-ring {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  left: 0;
   width: calc(var(--orbit-radius) * 2);
   height: calc(var(--orbit-radius) * 2);
   border: 1px dashed rgba(23, 60, 53, .22);
@@ -469,8 +472,8 @@ button { font: inherit; }
 
 .destination-pin-label {
   position: absolute;
-  top: calc(50% + 14px);
-  left: 50%;
+  top: 14px;
+  left: 0;
   padding: 6px 10px;
   border: 1px solid rgba(255, 255, 255, .78);
   border-radius: 999px;
@@ -485,16 +488,29 @@ button { font: inherit; }
 
 .orbit-track {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
   animation: orbitClockwise 36s linear infinite;
   animation-delay: var(--orbit-delay);
+  pointer-events: none;
+  transition: opacity .22s ease;
+}
+
+.orbit-track.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.orbit-track.is-hidden .activity-bubble {
   pointer-events: none;
 }
 
 .activity-bubble {
   position: absolute;
-  top: calc(50% - var(--orbit-radius));
-  left: 50%;
+  top: calc(0px - var(--orbit-radius));
+  left: 0;
   width: 148px;
   height: 148px;
   padding: 15px;
@@ -819,7 +835,7 @@ button { font: inherit; }
   .bubble-copy span,
   .bubble-copy em { font-size: 8px; }
 
-  .destination-pin-label { top: calc(50% + 12px); }
+  .destination-pin-label { top: 12px; }
 
   .activity-detail {
     position: fixed;

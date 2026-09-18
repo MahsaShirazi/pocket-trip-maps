@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { ActivityOrbit } from './components/ActivityOrbit'
 import { ExploreMap } from './components/ExploreMap'
 import {
   categoryLabels,
@@ -146,17 +145,11 @@ function App() {
         <ExploreMap
           destinations={destinations}
           activeDestination={activeDestination}
+          visibleActivityIds={visibleActivities.map((activity) => activity.id)}
+          activeActivity={activeActivity}
           onSelect={selectDestination}
+          onSelectActivity={setActiveActivity}
         />
-
-        {activeDestination && (
-          <ActivityOrbit
-            destination={activeDestination}
-            activities={visibleActivities}
-            activeActivity={activeActivity}
-            onSelect={setActiveActivity}
-          />
-        )}
 
         {activeDestination && visibleActivities.length === 0 && (
           <p className="map-empty-filter">No activities in this category yet.</p>

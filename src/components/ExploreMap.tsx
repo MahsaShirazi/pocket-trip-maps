@@ -1,12 +1,16 @@
 import { divIcon } from 'leaflet'
 import { useEffect } from 'react'
-import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet'
-import type { Destination } from '../data/destinations'
+import { MapContainer, Marker, Pane, TileLayer, useMap } from 'react-leaflet'
+import type { Activity, Destination } from '../data/destinations'
+import { ActivityOrbit } from './ActivityOrbit'
 
 type ExploreMapProps = {
   destinations: Destination[]
   activeDestination: Destination | null
+  visibleActivityIds: string[]
+  activeActivity: Activity | null
   onSelect: (destination: Destination) => void
+  onSelectActivity: (activity: Activity) => void
 }
 
 function MapFocus({ destination }: { destination: Destination | null }) {
@@ -33,7 +37,10 @@ const destinationIcon = divIcon({
 export function ExploreMap({
   destinations,
   activeDestination,
+  visibleActivityIds,
+  activeActivity,
   onSelect,
+  onSelectActivity,
 }: ExploreMapProps) {
   return (
     <MapContainer
@@ -58,6 +65,17 @@ export function ExploreMap({
           title={`Explore ${destination.name}`}
         />
       ))}
+      {activeDestination && (
+        <Pane name="activity-orbit" style={{ zIndex: 590 }}>
+          <ActivityOrbit
+            destination={activeDestination}
+            activities={activeDestination.activities}
+            visibleActivityIds={visibleActivityIds}
+            activeActivity={activeActivity}
+            onSelect={onSelectActivity}
+          />
+        </Pane>
+      )}
       <MapFocus destination={activeDestination} />
     </MapContainer>
   )

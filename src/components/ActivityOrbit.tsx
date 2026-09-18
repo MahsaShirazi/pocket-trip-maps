@@ -1,9 +1,11 @@
-import type { CSSProperties } from 'react'
+import { useEffect, useMemo, useState, type CSSProperties } from 'react'
+import { useMap } from 'react-leaflet'
 import type { Activity, Destination } from '../data/destinations'
 
 type ActivityOrbitProps = {
   destination: Destination
   activities: Activity[]
+  visibleActivityIds: string[]
   activeActivity: Activity | null
   onSelect: (activity: Activity) => void
 }
@@ -16,11 +18,35 @@ type OrbitStyle = CSSProperties & {
 export function ActivityOrbit({
   destination,
   activities,
+  visibleActivityIds,
   activeActivity,
   onSelect,
 }: ActivityOrbitProps) {
+  const map = useMap()
+  const [anchor, setAnchor] = useState(() =>
+    map.latLngToLayerPoint(destination.coordinates),
+  )
+  const visibleIds = useMemo(() => new Set(visibleActivityIds), [visibleActivityIds])
+
+  useEffect(() => {
+    const updateAnchor = () => {
+      setAnchor(map.latLngToLayerPoint(destination.coordinates))
+    }
+
+    updateAnchor()
+    map.on('zoomend viewreset moveend resize', updateAnchor)
+
+    return () => {
+      map.off('zoomend viewreset moveend resize', updateAnchor)
+    }
+  }, [destination.coordinates, map])
+
   return (
-    <div className="orbit-system" aria-label={`Activities around ${destination.name}`}>
+    <div
+      className="orbit-system"
+      style={{ transform: `translate3d(${anchor.x}px, ${anchor.y}px, 0)` }}
+      aria-label={`Activities around ${destination.name}`}
+    >
       <div className="orbit-ring" aria-hidden="true" />
       <span className="destination-pin-label" aria-hidden="true">{destination.name}</span>
 
@@ -30,9 +56,15 @@ export function ActivityOrbit({
           '--orbit-delay': delay,
           '--activity-accent': activity.accent,
         }
+        const isVisible = visibleIds.has(activity.id)
 
         return (
-          <div className="orbit-track" style={style} key={activity.id}>
+          <div
+            className={isVisible ? 'orbit-track' : 'orbit-track is-hidden'}
+            style={style}
+            key={activity.id}
+            aria-hidden={!isVisible}
+          >
             <button
               className={
                 activeActivity?.id === activity.id
@@ -41,6 +73,7 @@ export function ActivityOrbit({
               }
               onClick={() => onSelect(activity)}
               aria-pressed={activeActivity?.id === activity.id}
+              tabIndex={isVisible ? 0 : -1}
             >
               {activity.imageSrc ? (
                 <img className="bubble-photo" src={activity.imageSrc} alt="" />
