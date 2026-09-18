@@ -180,6 +180,14 @@ function App() {
                 <span>Bring</span>
                 <ul>{activeActivity.bring.map((item) => <li key={item}>{item}</li>)}</ul>
               </div>
+              {activeActivity.imageCredit && activeActivity.imageSourceUrl && (
+                <p className="photo-credit">
+                  Temporary representative photo:{' '}
+                  <a href={activeActivity.imageSourceUrl} target="_blank" rel="noreferrer">
+                    {activeActivity.imageCredit}
+                  </a>
+                </p>
+              )}
               <p className="verification-note">Practical details will be linked to current official sources before public launch.</p>
             </div>
           </section>

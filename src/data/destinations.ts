@@ -12,6 +12,8 @@ export type Activity = {
   accent: string
   icon: string
   imageSrc?: string
+  imageCredit?: string
+  imageSourceUrl?: string
   sourceUrl?: string
   verifiedOn?: string
 }
@@ -48,6 +50,10 @@ export const destinations: Destination[] = [
         bring: ['Water', 'Swimwear or quick-dry clothes', 'A dry change of clothes'],
         accent: '#e77d53',
         icon: '≈',
+        imageSrc: `${import.meta.env.BASE_URL}images/channel-tubing.webp`,
+        imageCredit: 'David Stanley · CC BY 2.0',
+        imageSourceUrl:
+          'https://commons.wikimedia.org/wiki/File:Cowichan_River_Tubing_(9337301143).jpg',
       },
       {
         id: 'suspension-bridge',
@@ -61,6 +67,10 @@ export const destinations: Destination[] = [
         bring: ['Comfortable walking shoes', 'Shoes with reliable grip'],
         accent: '#d5a44f',
         icon: '⌁',
+        imageSrc: `${import.meta.env.BASE_URL}images/suspension-bridge.webp`,
+        imageCredit: 'US Forest Service · Public domain',
+        imageSourceUrl:
+          'https://commons.wikimedia.org/wiki/File:ManisteeRiverTrailBridge2013.jpg',
       },
       {
         id: 'beach-swimming',
@@ -74,6 +84,10 @@ export const destinations: Destination[] = [
         bring: ['Swimwear', 'Towel', 'Water', 'Sun protection'],
         accent: '#4c94a0',
         icon: '◡',
+        imageSrc: `${import.meta.env.BASE_URL}images/beach-swimming.webp`,
+        imageCredit: 'Virginia State Parks · CC BY 2.0',
+        imageSourceUrl:
+          'https://commons.wikimedia.org/wiki/File:Lifeguard_chair_in_lake_from_swimming_beach_(42958841675).jpg',
       },
     ],
   },

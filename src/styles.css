@@ -695,11 +695,23 @@ button { font: inherit; }
   letter-spacing: -.035em;
 }
 
-.detail-content > p:not(.eyebrow):not(.verification-note) {
+.detail-content > p:not(.eyebrow):not(.verification-note):not(.photo-credit) {
   margin: 0;
   color: #5d706b;
   font-size: 12px;
   line-height: 1.55;
+}
+
+.photo-credit {
+  margin: 15px 0 0;
+  color: #7f8e89;
+  font-size: 8px;
+  line-height: 1.45;
+}
+
+.photo-credit a {
+  color: #60756e;
+  text-underline-offset: 2px;
 }
 
 .detail-facts {
