@@ -55,13 +55,13 @@ function App() {
             className="theme-toggle"
             onClick={() => setTheme((current) => current === 'light' ? 'space' : 'light')}
             aria-pressed={theme === 'space'}
-            aria-label={theme === 'space' ? 'Switch to light map' : 'Switch to space map'}
-            title={theme === 'space' ? 'Switch to light map' : 'Switch to space map'}
+            aria-label={theme === 'space' ? 'Switch to light map' : 'Switch to dark map'}
+            title={theme === 'space' ? 'Switch to light map' : 'Switch to dark map'}
           >
             <span className="theme-toggle-icon" aria-hidden="true">
               {theme === 'space' ? '☀' : '✦'}
             </span>
-            <span>{theme === 'space' ? 'Light' : 'Space'}</span>
+            <span>{theme === 'space' ? 'Light' : 'Dark'}</span>
           </button>
         </header>
 
@@ -178,8 +178,12 @@ function App() {
           onSelect={selectDestination}
           onSelectActivity={setActiveActivity}
           onMapArrival={revealOrbit}
-          theme={theme}
         />
+
+        <div className="map-compass" aria-label="Map orientation: north is up">
+          <span>N</span>
+          <i aria-hidden="true" />
+        </div>
 
         {activeDestination && visibleActivities.length === 0 && (
           <p className="map-empty-filter">No activities in this category yet.</p>

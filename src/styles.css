@@ -56,14 +56,8 @@ button { font: inherit; }
 }
 
 .map .leaflet-tile-pane {
-  filter: saturate(.48) sepia(.1) hue-rotate(72deg) brightness(1.035);
+  filter: saturate(.72) sepia(.08) hue-rotate(68deg) brightness(1.035) contrast(.98);
   transition: filter .65s ease;
-}
-
-.map .styled-water-pane {
-  mix-blend-mode: color;
-  opacity: .86;
-  transition: opacity .65s ease;
 }
 
 .map::before {
@@ -88,6 +82,43 @@ button { font: inherit; }
 .leaflet-control-attribution {
   font-size: 9px !important;
   opacity: .68;
+}
+
+.map-compass {
+  position: absolute;
+  z-index: 610;
+  top: 22px;
+  left: 22px;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 58px;
+  border: 1px solid rgba(23, 60, 53, .16);
+  border-radius: 24px;
+  color: #173c35;
+  background: rgba(248, 245, 235, .88);
+  box-shadow: 0 10px 28px rgba(25, 54, 49, .14);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+}
+
+.map-compass span {
+  position: absolute;
+  top: 7px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.map-compass i {
+  width: 0;
+  height: 0;
+  margin-top: 13px;
+  border-right: 6px solid transparent;
+  border-bottom: 18px solid #ef8058;
+  border-left: 6px solid transparent;
+  filter: drop-shadow(0 3px 4px rgba(23, 60, 53, .18));
 }
 
 .destination-marker-shell {
@@ -863,7 +894,7 @@ button { font: inherit; }
     box-shadow .45s ease;
 }
 
-/* Alternate space theme: the same map experience with a darker, orbital atmosphere. */
+/* Dark theme: deep navy cartography with restrained topographic detail. */
 .theme-space {
   color: #dbeaf5;
   color-scheme: dark;
@@ -884,12 +915,7 @@ button { font: inherit; }
 }
 
 .theme-space .map .leaflet-tile-pane {
-  filter: grayscale(1) brightness(.39) sepia(.52) hue-rotate(154deg) saturate(2.25) contrast(1.26);
-}
-
-.theme-space .map .styled-water-pane {
-  mix-blend-mode: screen;
-  opacity: .72;
+  filter: grayscale(1) brightness(.36) sepia(.62) hue-rotate(154deg) saturate(2.85) contrast(1.42);
 }
 
 .theme-space .map::before {
@@ -910,6 +936,13 @@ button { font: inherit; }
 }
 
 .theme-space .leaflet-control-attribution a { color: #acd9ef; }
+
+.theme-space .map-compass {
+  border-color: rgba(124, 210, 240, .28);
+  color: #dff5ff;
+  background: rgba(3, 18, 31, .86);
+  box-shadow: 0 10px 30px rgba(0, 5, 15, .36);
+}
 
 .theme-space .brand-bar,
 .theme-space .brand-name,
@@ -1121,6 +1154,13 @@ button { font: inherit; }
   }
 
   .orbit-system { --orbit-radius: min(30vw, 132px); }
+
+  .map-compass {
+    top: 14px;
+    left: 14px;
+    width: 42px;
+    height: 51px;
+  }
 
   .activity-bubble {
     width: 112px;
