@@ -19,13 +19,6 @@ body {
 
 button { font: inherit; }
 
-.map-palette-filters {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
 .app-shell {
   display: grid;
   grid-template-columns: clamp(350px, 29vw, 420px) minmax(0, 1fr);
@@ -922,7 +915,7 @@ button { font: inherit; }
 }
 
 .theme-space .map .leaflet-tile-pane {
-  filter: url('#dark-map-palette');
+  filter: grayscale(.84) brightness(.3) sepia(.6) hue-rotate(154deg) saturate(3.25) contrast(1.38);
 }
 
 .theme-space .map::before {
