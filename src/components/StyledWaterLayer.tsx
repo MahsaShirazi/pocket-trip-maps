@@ -18,6 +18,7 @@ type LeafletWithVectorGrid = typeof L & {
 type TileJson = {
   tiles?: string[]
   maxzoom?: number
+  vector_layers?: Array<{ id: string }>
 }
 
 // Leaflet's ESM namespace is read-only, while VectorGrid augments `window.L`.
@@ -61,27 +62,30 @@ export function StyledWaterLayer({ theme }: { theme: MapTheme }) {
           pane.style.pointerEvents = 'none'
         }
 
-        const waterColor = theme === 'space' ? '#258bc2' : '#58c6c9'
+        const waterColor = theme === 'space' ? '#1d709b' : '#70c2c6'
+        const vectorTileLayerStyles: Record<string, unknown> = Object.fromEntries(
+          (tileJson.vector_layers ?? []).map(({ id }) => [id, []]),
+        )
+
+        vectorTileLayerStyles.water = {
+          fill: true,
+          fillColor: waterColor,
+          fillOpacity: 1,
+          stroke: false,
+          weight: 0,
+        }
+        vectorTileLayerStyles.waterway = {
+          color: waterColor,
+          opacity: 1,
+          weight: 1.25,
+        }
 
         waterLayer = vectorGrid.protobuf(tileUrl, {
           pane: 'styled-water',
           rendererFactory,
           interactive: false,
           maxNativeZoom: tileJson.maxzoom ?? 14,
-          vectorTileLayerStyles: {
-            water: {
-              fill: true,
-              fillColor: waterColor,
-              fillOpacity: 1,
-              stroke: false,
-              weight: 0,
-            },
-            waterway: {
-              color: waterColor,
-              opacity: 1,
-              weight: 1.25,
-            },
-          },
+          vectorTileLayerStyles,
         })
 
         if (controller.signal.aborted) return

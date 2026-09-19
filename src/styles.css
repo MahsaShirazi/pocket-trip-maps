@@ -62,7 +62,7 @@ button { font: inherit; }
 
 .map .styled-water-pane {
   mix-blend-mode: color;
-  opacity: .92;
+  opacity: .86;
   transition: opacity .65s ease;
 }
 
@@ -889,7 +889,7 @@ button { font: inherit; }
 
 .theme-space .map .styled-water-pane {
   mix-blend-mode: screen;
-  opacity: .84;
+  opacity: .72;
 }
 
 .theme-space .map::before {
