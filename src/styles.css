@@ -56,7 +56,7 @@ button { font: inherit; }
 }
 
 .map .leaflet-tile-pane {
-  filter: saturate(.72) sepia(.08) hue-rotate(68deg) brightness(1.035) contrast(.98);
+  filter: saturate(1.16) hue-rotate(-3deg) brightness(1.015) contrast(1.02);
   transition: filter .65s ease;
 }
 
@@ -915,7 +915,7 @@ button { font: inherit; }
 }
 
 .theme-space .map .leaflet-tile-pane {
-  filter: grayscale(1) brightness(.36) sepia(.62) hue-rotate(154deg) saturate(2.85) contrast(1.42);
+  filter: grayscale(.92) brightness(.35) sepia(.66) hue-rotate(154deg) saturate(3.05) contrast(1.46);
 }
 
 .theme-space .map::before {

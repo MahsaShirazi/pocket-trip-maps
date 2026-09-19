@@ -90,9 +90,10 @@ export function ExploreMap({
       aria-label="Interactive map of Manitoba day-trip destinations"
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='Tiles &copy; <a href="https://www.esri.com/">Esri</a> — Sources: Esri, TomTom, Garmin, FAO, NOAA, USGS, OpenStreetMap contributors, and the GIS User Community'
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
         keepBuffer={6}
+        maxNativeZoom={18}
         updateWhenIdle={false}
         updateWhenZooming
         updateInterval={90}
