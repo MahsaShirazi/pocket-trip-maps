@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { MapContainer, Marker, Pane, TileLayer, useMap } from 'react-leaflet'
 import type { Activity, Destination } from '../data/destinations'
 import { ActivityOrbit } from './ActivityOrbit'
+import { StyledWaterLayer } from './StyledWaterLayer'
 
 type ExploreMapProps = {
   destinations: Destination[]
@@ -13,6 +14,7 @@ type ExploreMapProps = {
   onSelect: (destination: Destination) => void
   onSelectActivity: (activity: Activity) => void
   onMapArrival: () => void
+  theme: 'light' | 'space'
 }
 
 function MapFocus({
@@ -78,6 +80,7 @@ export function ExploreMap({
   onSelect,
   onSelectActivity,
   onMapArrival,
+  theme,
 }: ExploreMapProps) {
   return (
     <MapContainer
@@ -93,6 +96,7 @@ export function ExploreMap({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <StyledWaterLayer theme={theme} />
       {destinations.map((destination) => (
         <Marker
           key={destination.id}

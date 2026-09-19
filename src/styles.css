@@ -56,8 +56,14 @@ button { font: inherit; }
 }
 
 .map .leaflet-tile-pane {
-  filter: saturate(.55) sepia(.08) hue-rotate(75deg) brightness(1.02);
+  filter: saturate(.48) sepia(.1) hue-rotate(72deg) brightness(1.035);
   transition: filter .65s ease;
+}
+
+.map .styled-water-pane {
+  mix-blend-mode: color;
+  opacity: .92;
+  transition: opacity .65s ease;
 }
 
 .map::before {
@@ -874,15 +880,24 @@ button { font: inherit; }
 
 .theme-space .map-stage,
 .theme-space .map {
-  background: #030811;
+  background: #061522;
 }
 
 .theme-space .map .leaflet-tile-pane {
-  filter: brightness(.72) invert(.92) hue-rotate(168deg) saturate(.65) contrast(1.12);
+  filter: grayscale(1) brightness(.39) sepia(.52) hue-rotate(154deg) saturate(2.25) contrast(1.26);
+}
+
+.theme-space .map .styled-water-pane {
+  mix-blend-mode: screen;
+  opacity: .84;
 }
 
 .theme-space .map::before {
-  opacity: 0;
+  opacity: .14;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='280' viewBox='0 0 360 280'%3E%3Cg fill='none' stroke='%2388b2c7' stroke-width='1'%3E%3Cpath d='M-35 73C31 20 105 23 166 69s117 60 229 3'/%3E%3Cpath d='M-45 93C32 38 96 45 158 88s132 49 247-2'/%3E%3Cpath d='M-33 118c71-49 128-39 190 2s129 40 235-8'/%3E%3Cpath d='M-26 146c69-41 127-31 183 6s128 36 228-5'/%3E%3Cpath d='M-38 174c76-34 130-19 186 12s130 25 252-17'/%3E%3Cpath d='M-29 207c83-29 131-8 187 17s132 14 239-28'/%3E%3Cpath d='M-36 242c82-23 139 0 190 18s121 8 242-35'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 360px 280px;
+  background-position: center;
+  mix-blend-mode: screen;
 }
 
 .theme-space .map::after {
