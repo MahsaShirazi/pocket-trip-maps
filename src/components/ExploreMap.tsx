@@ -4,6 +4,54 @@ import { MapContainer, Marker, Pane, TileLayer, useMap } from 'react-leaflet'
 import type { Activity, Destination } from '../data/destinations'
 import { ActivityOrbit } from './ActivityOrbit'
 
+const TOPO_TILE_URL =
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
+const DESTINATION_ZOOM = 12
+
+function topoTileUrl(coordinates: [number, number], xOffset: number, yOffset: number) {
+  const [latitude, longitude] = coordinates
+  const tileCount = 2 ** DESTINATION_ZOOM
+  const x = Math.floor(((longitude + 180) / 360) * tileCount) + xOffset
+  const latitudeRadians = (latitude * Math.PI) / 180
+  const y = Math.floor(
+    ((1 - Math.asinh(Math.tan(latitudeRadians)) / Math.PI) / 2) * tileCount,
+  ) + yOffset
+
+  return TOPO_TILE_URL
+    .replace('{z}', String(DESTINATION_ZOOM))
+    .replace('{x}', String(x))
+    .replace('{y}', String(y))
+}
+
+function DestinationTilePreloader({ destinations }: { destinations: Destination[] }) {
+  useEffect(() => {
+    const images: HTMLImageElement[] = []
+    const timer = window.setTimeout(() => {
+      destinations.forEach((destination) => {
+        for (let yOffset = -2; yOffset <= 2; yOffset += 1) {
+          for (let xOffset = -2; xOffset <= 2; xOffset += 1) {
+            const image = new Image()
+            image.decoding = 'async'
+            image.fetchPriority = 'low'
+            image.src = topoTileUrl(destination.coordinates, xOffset, yOffset)
+            images.push(image)
+          }
+        }
+      })
+    }, 350)
+
+    return () => {
+      window.clearTimeout(timer)
+      images.forEach((image) => {
+        image.onload = null
+        image.onerror = null
+      })
+    }
+  }, [destinations])
+
+  return null
+}
+
 type ExploreMapProps = {
   destinations: Destination[]
   activeDestination: Destination | null
@@ -91,13 +139,14 @@ export function ExploreMap({
     >
       <TileLayer
         attribution='Tiles &copy; <a href="https://www.esri.com/">Esri</a> — Sources: Esri, TomTom, Garmin, FAO, NOAA, USGS, OpenStreetMap contributors, and the GIS User Community'
-        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
-        keepBuffer={6}
+        url={TOPO_TILE_URL}
+        keepBuffer={2}
         maxNativeZoom={18}
         updateWhenIdle={false}
         updateWhenZooming
-        updateInterval={90}
+        updateInterval={180}
       />
+      <DestinationTilePreloader destinations={destinations} />
       {destinations.map((destination) => (
         <Marker
           key={destination.id}

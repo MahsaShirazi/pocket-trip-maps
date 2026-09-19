@@ -42,6 +42,19 @@ function App() {
 
   return (
     <main className={`app-shell theme-${theme}`}>
+      <svg className="map-palette-filters" aria-hidden="true">
+        <filter id="dark-map-palette" colorInterpolationFilters="sRGB">
+          <feColorMatrix
+            type="matrix"
+            values="
+              6.16995 -7.64818 1.61549 0 0.58824
+              4.89917 -7.32541 2.52821 0 0.82353
+              3.99196 -6.81056 2.90879 0 0.90980
+              0 0 0 1 0
+            "
+          />
+        </filter>
+      </svg>
       <aside className="explore-panel" aria-label="Explore destinations">
         <header className="brand-bar">
           <div className="brand-mark" aria-hidden="true">
