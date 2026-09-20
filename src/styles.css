@@ -67,7 +67,7 @@ button { font: inherit; }
   will-change: opacity, transform;
 }
 
-.map.has-destination .destination-map-art-light {
+.destination-map-art-light {
   opacity: 1 !important;
 }
 
@@ -1025,11 +1025,11 @@ button { font: inherit; }
   opacity: 0;
 }
 
-.theme-space .map.has-destination .destination-map-art-light {
+.theme-space .destination-map-art-light {
   opacity: 0 !important;
 }
 
-.theme-space .map.has-destination .destination-map-art-dark {
+.theme-space .destination-map-art-dark {
   opacity: 1 !important;
 }
 

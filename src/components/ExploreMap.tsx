@@ -19,6 +19,7 @@ const PINAWA_ARTWORK_BOUNDS: LatLngBoundsExpression = [
   [49.9955, -96.1774],
   [50.2555, -95.5974],
 ]
+const PINAWA_ARTWORK_FILES = ['pinawa-map-light.webp', 'pinawa-map-dark.webp']
 
 function topoTileUrl(coordinates: [number, number], xOffset: number, yOffset: number) {
   const [latitude, longitude] = coordinates
@@ -39,6 +40,14 @@ function DestinationTilePreloader({ destinations }: { destinations: Destination[
   useEffect(() => {
     const images: HTMLImageElement[] = []
     const timer = window.setTimeout(() => {
+      PINAWA_ARTWORK_FILES.forEach((fileName) => {
+        const image = new Image()
+        image.decoding = 'async'
+        image.fetchPriority = 'high'
+        image.src = `${import.meta.env.BASE_URL}images/${fileName}`
+        images.push(image)
+      })
+
       destinations.forEach((destination) => {
         for (let yOffset = -2; yOffset <= 2; yOffset += 1) {
           for (let xOffset = -2; xOffset <= 2; xOffset += 1) {
@@ -153,7 +162,7 @@ export function ExploreMap({
       minZoom={4}
       maxZoom={15}
       zoomControl={false}
-      className={activeDestination ? 'map has-destination' : 'map'}
+      className="map"
       aria-label="Interactive map of Manitoba day-trip destinations"
     >
       <TileLayer
@@ -166,18 +175,22 @@ export function ExploreMap({
         updateInterval={180}
       />
       <Pane name="destination-artwork" style={{ zIndex: 225 }}>
-        <ImageOverlay
-          bounds={PINAWA_ARTWORK_BOUNDS}
-          className="destination-map-art destination-map-art-light"
-          opacity={activeDestination ? 1 : 0}
-          url={`${import.meta.env.BASE_URL}images/pinawa-map-light.webp`}
-        />
-        <ImageOverlay
-          bounds={PINAWA_ARTWORK_BOUNDS}
-          className="destination-map-art destination-map-art-dark"
-          opacity={activeDestination ? 1 : 0}
-          url={`${import.meta.env.BASE_URL}images/pinawa-map-dark.webp`}
-        />
+        {activeDestination && (
+          <>
+            <ImageOverlay
+              bounds={PINAWA_ARTWORK_BOUNDS}
+              className="destination-map-art destination-map-art-light"
+              opacity={1}
+              url={`${import.meta.env.BASE_URL}images/pinawa-map-light.webp`}
+            />
+            <ImageOverlay
+              bounds={PINAWA_ARTWORK_BOUNDS}
+              className="destination-map-art destination-map-art-dark"
+              opacity={1}
+              url={`${import.meta.env.BASE_URL}images/pinawa-map-dark.webp`}
+            />
+          </>
+        )}
       </Pane>
       <DestinationTilePreloader destinations={destinations} />
       {destinations.map((destination) => (
