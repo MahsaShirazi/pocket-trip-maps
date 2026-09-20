@@ -60,6 +60,17 @@ button { font: inherit; }
   transition: filter .65s ease;
 }
 
+.destination-map-art {
+  opacity: 0 !important;
+  image-rendering: auto;
+  transition: opacity .72s ease;
+  will-change: opacity, transform;
+}
+
+.map.has-destination .destination-map-art-light {
+  opacity: 1 !important;
+}
+
 .map::before {
   content: '';
   position: absolute;
@@ -84,11 +95,41 @@ button { font: inherit; }
   opacity: .68;
 }
 
+.leaflet-control-scale {
+  margin-right: 20px !important;
+  margin-bottom: 20px !important;
+}
+
+.leaflet-control-scale-line {
+  position: relative;
+  border: 0 !important;
+  border-bottom: 2px solid #315b5d !important;
+  color: #315b5d;
+  background: transparent !important;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  text-align: right;
+  text-shadow: 0 1px 0 rgba(241, 255, 251, .9);
+}
+
+.leaflet-control-scale-line::before,
+.leaflet-control-scale-line::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  width: 2px;
+  height: 7px;
+  background: currentColor;
+}
+
+.leaflet-control-scale-line::before { left: 0; }
+.leaflet-control-scale-line::after { right: 0; }
+
 .map-compass {
   position: absolute;
   z-index: 610;
   top: 22px;
-  left: 22px;
+  right: 22px;
   display: grid;
   place-items: center;
   width: 48px;
@@ -122,17 +163,21 @@ button { font: inherit; }
 }
 
 .destination-marker-shell {
+  position: relative;
   background: none;
   border: 0;
 }
 
 .destination-marker {
+  position: absolute;
+  top: 0;
+  left: 39px;
   display: grid;
   place-items: center;
   width: 42px;
   height: 42px;
-  border-radius: 50% 50% 50% 8px;
-  transform: rotate(-45deg);
+  border: 1px solid rgba(255, 255, 255, .78);
+  border-radius: 50%;
   background: #ef8058;
   box-shadow: 0 0 0 9px rgba(239, 128, 88, .2), 0 10px 22px rgba(23, 60, 53, .24);
   animation: markerPulse 2.4s ease-in-out infinite;
@@ -143,7 +188,65 @@ button { font: inherit; }
   height: 13px;
   border: 3px solid white;
   border-radius: 50%;
-  transform: rotate(45deg);
+}
+
+.destination-marker-label {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 120px;
+  color: #153b43;
+  font-family: 'Manrope', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .8), 0 2px 10px rgba(234, 255, 250, .9);
+}
+
+.park-marker-shell {
+  background: none;
+  border: 0;
+  color: #34776f;
+  opacity: .78;
+  pointer-events: none;
+}
+
+.park-tree {
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  width: 34px;
+  height: 43px;
+  transform: translateX(-50%);
+}
+
+.park-tree i {
+  position: absolute;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-right: 13px solid transparent;
+  border-bottom: 22px solid currentColor;
+  border-left: 13px solid transparent;
+  transform: translateX(-50%);
+}
+
+.park-tree i:nth-child(1) { top: 0; }
+.park-tree i:nth-child(2) { top: 9px; }
+.park-tree i:nth-child(3) { top: 18px; }
+
+.park-marker-label {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 128px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  line-height: 1.45;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 @keyframes markerPulse {
@@ -865,7 +968,7 @@ button { font: inherit; }
 .prototype-note {
   position: absolute;
   z-index: 500;
-  top: 24px;
+  top: 94px;
   right: 24px;
   padding: 9px 12px;
   border-radius: 999px;
@@ -919,11 +1022,15 @@ button { font: inherit; }
 }
 
 .theme-space .map::before {
-  opacity: .14;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='280' viewBox='0 0 360 280'%3E%3Cg fill='none' stroke='%2388b2c7' stroke-width='1'%3E%3Cpath d='M-35 73C31 20 105 23 166 69s117 60 229 3'/%3E%3Cpath d='M-45 93C32 38 96 45 158 88s132 49 247-2'/%3E%3Cpath d='M-33 118c71-49 128-39 190 2s129 40 235-8'/%3E%3Cpath d='M-26 146c69-41 127-31 183 6s128 36 228-5'/%3E%3Cpath d='M-38 174c76-34 130-19 186 12s130 25 252-17'/%3E%3Cpath d='M-29 207c83-29 131-8 187 17s132 14 239-28'/%3E%3Cpath d='M-36 242c82-23 139 0 190 18s121 8 242-35'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 360px 280px;
-  background-position: center;
-  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+.theme-space .map.has-destination .destination-map-art-light {
+  opacity: 0 !important;
+}
+
+.theme-space .map.has-destination .destination-map-art-dark {
+  opacity: 1 !important;
 }
 
 .theme-space .map::after {
@@ -936,6 +1043,12 @@ button { font: inherit; }
 }
 
 .theme-space .leaflet-control-attribution a { color: #acd9ef; }
+
+.theme-space .leaflet-control-scale-line {
+  border-bottom-color: #91b6c8 !important;
+  color: #91b6c8;
+  text-shadow: 0 1px 0 rgba(2, 12, 22, .9);
+}
 
 .theme-space .map-compass {
   border-color: rgba(124, 210, 240, .28);
@@ -1068,6 +1181,16 @@ button { font: inherit; }
   box-shadow: 0 0 0 9px rgba(255, 131, 95, .2), 0 0 30px rgba(255, 119, 83, .48);
 }
 
+.theme-space .destination-marker-label {
+  color: #f1f9ff;
+  text-shadow: 0 2px 12px rgba(0, 6, 14, .95);
+}
+
+.theme-space .park-marker-shell {
+  color: #68b6c7;
+  opacity: .72;
+}
+
 .theme-space .orbit-ring {
   border-color: rgba(121, 218, 243, .4);
   box-shadow:
@@ -1157,9 +1280,14 @@ button { font: inherit; }
 
   .map-compass {
     top: 14px;
-    left: 14px;
+    right: 14px;
     width: 42px;
     height: 51px;
+  }
+
+  .leaflet-control-scale {
+    margin-right: 12px !important;
+    margin-bottom: 12px !important;
   }
 
   .activity-bubble {

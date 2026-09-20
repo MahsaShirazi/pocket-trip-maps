@@ -1,12 +1,24 @@
-import { divIcon } from 'leaflet'
+import { divIcon, type LatLngBoundsExpression } from 'leaflet'
 import { useEffect } from 'react'
-import { MapContainer, Marker, Pane, TileLayer, useMap } from 'react-leaflet'
+import {
+  ImageOverlay,
+  MapContainer,
+  Marker,
+  Pane,
+  ScaleControl,
+  TileLayer,
+  useMap,
+} from 'react-leaflet'
 import type { Activity, Destination } from '../data/destinations'
 import { ActivityOrbit } from './ActivityOrbit'
 
 const TOPO_TILE_URL =
   'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}'
 const DESTINATION_ZOOM = 12
+const PINAWA_ARTWORK_BOUNDS: LatLngBoundsExpression = [
+  [49.9955, -96.1774],
+  [50.2555, -95.5974],
+]
 
 function topoTileUrl(coordinates: [number, number], xOffset: number, yOffset: number) {
   const [latitude, longitude] = coordinates
@@ -112,9 +124,16 @@ function MapFocus({
 
 const destinationIcon = divIcon({
   className: 'destination-marker-shell',
-  html: '<span class="destination-marker"><span></span></span>',
-  iconSize: [42, 42],
-  iconAnchor: [21, 51],
+  html: '<span class="destination-marker"><span></span></span><strong class="destination-marker-label">Pinawa</strong>',
+  iconSize: [120, 74],
+  iconAnchor: [60, 21],
+})
+
+const parkIcon = divIcon({
+  className: 'park-marker-shell',
+  html: '<span class="park-tree" aria-hidden="true"><i></i><i></i><i></i></span><span class="park-marker-label">Whiteshell<br>Provincial Park</span>',
+  iconSize: [128, 82],
+  iconAnchor: [64, 41],
 })
 
 export function ExploreMap({
@@ -134,7 +153,7 @@ export function ExploreMap({
       minZoom={4}
       maxZoom={15}
       zoomControl={false}
-      className="map"
+      className={activeDestination ? 'map has-destination' : 'map'}
       aria-label="Interactive map of Manitoba day-trip destinations"
     >
       <TileLayer
@@ -146,6 +165,20 @@ export function ExploreMap({
         updateWhenZooming
         updateInterval={180}
       />
+      <Pane name="destination-artwork" style={{ zIndex: 225 }}>
+        <ImageOverlay
+          bounds={PINAWA_ARTWORK_BOUNDS}
+          className="destination-map-art destination-map-art-light"
+          opacity={activeDestination ? 1 : 0}
+          url={`${import.meta.env.BASE_URL}images/pinawa-map-light.webp`}
+        />
+        <ImageOverlay
+          bounds={PINAWA_ARTWORK_BOUNDS}
+          className="destination-map-art destination-map-art-dark"
+          opacity={activeDestination ? 1 : 0}
+          url={`${import.meta.env.BASE_URL}images/pinawa-map-dark.webp`}
+        />
+      </Pane>
       <DestinationTilePreloader destinations={destinations} />
       {destinations.map((destination) => (
         <Marker
@@ -156,6 +189,15 @@ export function ExploreMap({
           title={`Explore ${destination.name}`}
         />
       ))}
+      {activeDestination && (
+        <Pane name="park-label" style={{ zIndex: 450 }}>
+          <Marker
+            position={[50.055, -95.685]}
+            icon={parkIcon}
+            interactive={false}
+          />
+        </Pane>
+      )}
       {activeDestination && (
         <Pane name="activity-orbit" style={{ zIndex: 590 }}>
           <ActivityOrbit
@@ -169,6 +211,7 @@ export function ExploreMap({
         </Pane>
       )}
       <MapFocus destination={activeDestination} onArrival={onMapArrival} />
+      <ScaleControl position="bottomright" imperial={false} maxWidth={110} />
     </MapContainer>
   )
 }
