@@ -13,10 +13,6 @@ type CategoryFilter = ActivityCategory | 'all'
 type ThemeMode = 'light' | 'space'
 
 function App() {
-  const scenePreviewEnabled = useMemo(
-    () => new URLSearchParams(window.location.search).get('preview') === 'scene',
-    [],
-  )
   const [activeDestination, setActiveDestination] = useState<Destination | null>(null)
   const [activeActivity, setActiveActivity] = useState<Activity | null>(null)
   const [category, setCategory] = useState<CategoryFilter>('all')
@@ -30,8 +26,6 @@ function App() {
   }, [theme])
 
   useEffect(() => {
-    if (!scenePreviewEnabled) return
-
     const images = ['pinawa-scene-light.webp', 'pinawa-scene-dark.webp'].map((fileName) => {
       const image = new Image()
       image.decoding = 'async'
@@ -46,7 +40,7 @@ function App() {
         image.onerror = null
       })
     }
-  }, [scenePreviewEnabled])
+  }, [])
 
   const visibleActivities = useMemo(() => {
     if (!activeDestination) return []
@@ -196,7 +190,7 @@ function App() {
         <ExploreMap
           destinations={destinations}
           activeDestination={activeDestination}
-          renderMapOrbit={!scenePreviewEnabled}
+          renderMapOrbit={false}
           orbitVisible={orbitVisible}
           visibleActivityIds={visibleActivities.map((activity) => activity.id)}
           activeActivity={activeActivity}
@@ -205,7 +199,7 @@ function App() {
           onMapArrival={revealOrbit}
         />
 
-        {scenePreviewEnabled && activeDestination && (
+        {activeDestination && (
           <DestinationScene
             destination={activeDestination}
             isRevealed={orbitVisible}
