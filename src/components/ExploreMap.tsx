@@ -55,6 +55,7 @@ function DestinationTilePreloader({ destinations }: { destinations: Destination[
 type ExploreMapProps = {
   destinations: Destination[]
   activeDestination: Destination | null
+  renderMapOrbit: boolean
   orbitVisible: boolean
   visibleActivityIds: string[]
   activeActivity: Activity | null
@@ -120,6 +121,7 @@ const destinationIcon = divIcon({
 export function ExploreMap({
   destinations,
   activeDestination,
+  renderMapOrbit,
   orbitVisible,
   visibleActivityIds,
   activeActivity,
@@ -156,7 +158,7 @@ export function ExploreMap({
           title={`Explore ${destination.name}`}
         />
       ))}
-      {activeDestination && (
+      {activeDestination && renderMapOrbit && (
         <Pane name="activity-orbit" style={{ zIndex: 590 }}>
           <ActivityOrbit
             destination={activeDestination}

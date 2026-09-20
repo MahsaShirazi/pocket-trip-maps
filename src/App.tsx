@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { DestinationScene } from './components/DestinationScene'
 import { ExploreMap } from './components/ExploreMap'
 import {
   categoryLabels,
@@ -12,6 +13,10 @@ type CategoryFilter = ActivityCategory | 'all'
 type ThemeMode = 'light' | 'space'
 
 function App() {
+  const scenePreviewEnabled = useMemo(
+    () => new URLSearchParams(window.location.search).get('preview') === 'scene',
+    [],
+  )
   const [activeDestination, setActiveDestination] = useState<Destination | null>(null)
   const [activeActivity, setActiveActivity] = useState<Activity | null>(null)
   const [category, setCategory] = useState<CategoryFilter>('all')
@@ -23,6 +28,25 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem('pocket-trip-theme', theme)
   }, [theme])
+
+  useEffect(() => {
+    if (!scenePreviewEnabled) return
+
+    const images = ['pinawa-scene-light.webp', 'pinawa-scene-dark.webp'].map((fileName) => {
+      const image = new Image()
+      image.decoding = 'async'
+      image.fetchPriority = 'high'
+      image.src = `${import.meta.env.BASE_URL}images/${fileName}`
+      return image
+    })
+
+    return () => {
+      images.forEach((image) => {
+        image.onload = null
+        image.onerror = null
+      })
+    }
+  }, [scenePreviewEnabled])
 
   const visibleActivities = useMemo(() => {
     if (!activeDestination) return []
@@ -172,6 +196,7 @@ function App() {
         <ExploreMap
           destinations={destinations}
           activeDestination={activeDestination}
+          renderMapOrbit={!scenePreviewEnabled}
           orbitVisible={orbitVisible}
           visibleActivityIds={visibleActivities.map((activity) => activity.id)}
           activeActivity={activeActivity}
@@ -179,6 +204,16 @@ function App() {
           onSelectActivity={setActiveActivity}
           onMapArrival={revealOrbit}
         />
+
+        {scenePreviewEnabled && activeDestination && (
+          <DestinationScene
+            destination={activeDestination}
+            isRevealed={orbitVisible}
+            visibleActivityIds={visibleActivities.map((activity) => activity.id)}
+            activeActivity={activeActivity}
+            onSelectActivity={setActiveActivity}
+          />
+        )}
 
         <div className="map-compass" aria-label="Map orientation: north is up">
           <span>N</span>
