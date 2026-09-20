@@ -205,7 +205,7 @@ export function ExploreMap({
       {activeDestination && (
         <Pane name="park-label" style={{ zIndex: 450 }}>
           <Marker
-            position={[50.055, -95.685]}
+            position={[50.105, -95.78]}
             icon={parkIcon}
             interactive={false}
           />
