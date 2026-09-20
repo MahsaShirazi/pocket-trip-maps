@@ -103,7 +103,10 @@ button { font: inherit; }
   will-change: opacity, transform;
 }
 
-.destination-scene-map-light { opacity: 1; }
+.destination-scene-map-light {
+  opacity: 1;
+  filter: hue-rotate(-12deg) saturate(1.08) brightness(1.015);
+}
 
 .destination-scene-shade {
   position: absolute;
